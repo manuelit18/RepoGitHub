@@ -1,0 +1,377 @@
+<!--
+Descripción: Apple TV landing page y página de bienvenida con productos de Microsoft 365.
+-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Plataforma Streaming Premium</title>
+    <style>
+    body {
+        background: #111;
+        color: #f5f5f7;
+        font-family: 'SF Pro Display', 'Segoe UI', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #181818;
+        padding: 0.5rem 2rem;
+        border-bottom: 1px solid #222;
+    }
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #fff;
+    }
+    .search {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .search input {
+        background: #222;
+        border: none;
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        color: #fff;
+        outline: none;
+    }
+    .banner {
+        position: relative;
+        width: 100%;
+        height: 340px;
+        background: #222;
+        overflow: hidden;
+        display: flex;
+        align-items: flex-end;
+    }
+    .banner-img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.45;
+        z-index: 1;
+    }
+    .banner-content {
+        position: relative;
+        z-index: 2;
+        padding: 2rem 3rem;
+        max-width: 40%;
+    }
+    .banner-content h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    .banner-content p {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        color: #ccc;
+    }
+    .cta {
+        background: #fff;
+        color: #111;
+        border: none;
+        border-radius: 24px;
+        padding: 0.8rem 2rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .cta:hover, .cta:focus {
+        background: #e5e5e5;
+    }
+    .banner-controls {
+        position: absolute;
+        bottom: 1.5rem;
+        right: 2rem;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 1rem;
+    }
+    .dots {
+        display: flex;
+        gap: 0.5rem;
+    }
+    .dot {
+        width: 10px;
+        height: 10px;
+        background: #fff3;
+        border-radius: 50%;
+        transition: background 0.2s;
+    }
+    .dot.active {
+        background: #fff;
+    }
+    .play-controls svg {
+        width: 28px;
+        height: 28px;
+        fill: #fff;
+        opacity: 0.7;
+        cursor: pointer;
+        margin-left: 0.5rem;
+        transition: opacity 0.2s;
+    }
+    .play-controls svg:hover {
+        opacity: 1;
+    }
+    .main-player {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2rem 0;
+    }
+    .video-frame {
+        position: relative;
+        width: 60vw;
+        max-width: 900px;
+        aspect-ratio: 16/9;
+        background: #222;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px #000a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .video-placeholder {
+        color: #fff;
+        text-align: center;
+        font-size: 1.1rem;
+        opacity: 0.8;
+    }
+    .player-controls {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        display: flex;
+        gap: 1rem;
+    }
+    .player-controls svg {
+        width: 32px;
+        height: 32px;
+        fill: #fff;
+        opacity: 0.7;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+    .player-controls svg:hover {
+        opacity: 1;
+    }
+    .content-row {
+        margin: 2.5rem 0 1.5rem 0;
+        padding: 0 2rem;
+    }
+    .row-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    .row-header h2 {
+        font-size: 1.4rem;
+        font-weight: 600;
+    }
+    .row-header a {
+        color: #fff;
+        opacity: 0.7;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: opacity 0.2s;
+    }
+    .row-header a:hover {
+        opacity: 1;
+    }
+    .row-cards {
+        display: flex;
+        gap: 1.5rem;
+        overflow-x: auto;
+        padding-bottom: 1rem;
+    }
+    .svg-card {
+        min-width: 160px;
+        max-width: 160px;
+        height: 240px;
+        border-radius: 18px;
+        background: transparent;
+        cursor: pointer;
+        transition: transform 0.2s;
+        outline: none;
+    }
+    .svg-card:focus, .svg-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 24px #0008;
+    }
+    .poster-svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+        border-radius: 18px;
+        transition: filter 0.2s;
+    }
+    .svg-card:focus .poster-svg, .svg-card:hover .poster-svg {
+        filter: brightness(1.15) drop-shadow(0 0 12px #fff2);
+    }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <!-- Barra de navegación superior -->
+    <nav class="navbar">
+        <div class="logo">
+            <svg width="40" height="40" viewBox="0 0 40 40"><rect x="2" y="2" width="36" height="36" rx="8" fill="#fff"/><text x="20" y="28" text-anchor="middle" font-size="22" fill="#111" font-family="sans-serif" font-weight="bold">S+</text></svg>
+            <span>StreamPlus</span>
+        </div>
+        <div class="search">
+            <input type="text" placeholder="Buscar...">
+            <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke="#fff" stroke-width="2" fill="none"/><line x1="18" y1="18" x2="22" y2="22" stroke="#fff" stroke-width="2"/></svg>
+        </div>
+    </nav>
+
+    <!-- Banner promocional -->
+    <section class="banner">
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Contenido destacado" class="banner-img">
+        <div class="banner-content">
+            <h1>Disfruta lo mejor del streaming</h1>
+            <p>Accede a miles de series y películas originales. Prueba gratuita por 7 días.</p>
+            <button class="cta">Comienza tu prueba gratis</button>
+        </div>
+        <div class="banner-controls">
+            <div class="dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+            <div class="play-controls">
+                <svg width="28" height="28" viewBox="0 0 28 28"><polygon points="8,6 22,14 8,22" fill="#fff"/></svg>
+                <svg width="28" height="28" viewBox="0 0 28 28"><rect x="8" y="6" width="4" height="16" rx="2" fill="#fff"/><rect x="16" y="6" width="4" height="16" rx="2" fill="#fff"/></svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reproductor de video principal -->
+    <section class="main-player">
+        <div class="video-frame">
+            <div class="video-placeholder">
+                <span>Insertar enlace de YouTube aquí:</span>
+                <a href="https://www.youtube.com/watch?v=xEQP4VVuyrY" target="_blank">
+                    (774) Severance — Official Trailer | Apple TV+
+                </a>
+            </div>
+            <div class="player-controls">
+                <svg width="32" height="32" viewBox="0 0 32 32"><polygon points="10,8 26,16 10,24" fill="#fff"/></svg>
+                <svg width="32" height="32" viewBox="0 0 32 32"><rect x="6" y="6" width="20" height="20" rx="4" fill="none" stroke="#fff" stroke-width="2"/></svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filas de contenido: Series -->
+    <section class="content-row">
+        <div class="row-header">
+            <h2>Series más vistas</h2>
+            <a href="#">Ver más</a>
+        </div>
+        <div class="row-cards">
+            {% for i in range(1,6) %}
+            <div class="svg-card" tabindex="0">
+                <svg viewBox="0 0 160 240" class="poster-svg">
+                    <defs>
+                        <linearGradient id="gradS{{i}}" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#222"/>
+                            <stop offset="100%" stop-color="#444"/>
+                        </linearGradient>
+                        <filter id="shadowS{{i}}" x="-10%" y="-10%" width="120%" height="120%">
+                            <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+                        </filter>
+                    </defs>
+                    <rect x="8" y="8" width="144" height="224" rx="18" fill="url(#gradS{{i}})" filter="url(#shadowS{{i}})"/>
+                    <text x="80" y="60" text-anchor="middle" font-size="22" fill="#fff" font-family="sans-serif" font-weight="bold">Serie {{i}}</text>
+                    <text x="80" y="90" text-anchor="middle" font-size="14" fill="#ccc" font-family="sans-serif">Drama</text>
+                    <g>
+                        <circle cx="30" cy="210" r="14" fill="#fff" opacity="0.15"/>
+                        <text x="30" y="215" text-anchor="middle" font-size="16" fill="#fff" font-family="sans-serif">S</text>
+                    </g>
+                    <text x="140" y="230" text-anchor="end" font-size="18" fill="#fff" font-family="sans-serif" opacity="0.7">{{i}}</text>
+                </svg>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Filas de contenido: Películas -->
+    <section class="content-row">
+        <div class="row-header">
+            <h2>Películas recomendadas</h2>
+            <a href="#">Ver más</a>
+        </div>
+        <div class="row-cards">
+            {% for i in range(1,6) %}
+            <div class="svg-card" tabindex="0">
+                <svg viewBox="0 0 160 240" class="poster-svg">
+                    <defs>
+                        <linearGradient id="gradP{{i}}" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#1a1a1a"/>
+                            <stop offset="100%" stop-color="#333"/>
+                        </linearGradient>
+                        <filter id="shadowP{{i}}" x="-10%" y="-10%" width="120%" height="120%">
+                            <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+                        </filter>
+                    </defs>
+                    <rect x="8" y="8" width="144" height="224" rx="18" fill="url(#gradP{{i}})" filter="url(#shadowP{{i}})"/>
+                    <text x="80" y="60" text-anchor="middle" font-size="22" fill="#fff" font-family="sans-serif" font-weight="bold">Película {{i}}</text>
+                    <text x="80" y="90" text-anchor="middle" font-size="14" fill="#ccc" font-family="sans-serif">Acción</text>
+                    <g>
+                        <rect x="18" y="196" width="24" height="24" rx="6" fill="#fff" opacity="0.15"/>
+                        <text x="30" y="215" text-anchor="middle" font-size="16" fill="#fff" font-family="sans-serif">F</text>
+                    </g>
+                    <text x="140" y="230" text-anchor="end" font-size="18" fill="#fff" font-family="sans-serif" opacity="0.7">{{i}}</text>
+                </svg>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Filas de contenido: Trailers -->
+    <section class="content-row">
+        <div class="row-header">
+            <h2>Tráilers recientes</h2>
+            <a href="#">Ver más</a>
+        </div>
+        <div class="row-cards">
+            {% for i in range(1,6) %}
+            <div class="svg-card" tabindex="0">
+                <svg viewBox="0 0 160 240" class="poster-svg">
+                    <defs>
+                        <linearGradient id="gradT{{i}}" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#181818"/>
+                            <stop offset="100%" stop-color="#292929"/>
+                        </linearGradient>
+                        <filter id="shadowT{{i}}" x="-10%" y="-10%" width="120%" height="120%">
+                            <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+                        </filter>
+                    </defs>
+                    <rect x="8" y="8" width="144" height="224" rx="18" fill="url(#gradT{{i}})" filter="url(#shadowT{{i}})"/>
+                    <text x="80" y="60" text-anchor="middle" font-size="22" fill="#fff" font-family="sans-serif" font-weight="bold">Tráiler {{i}}</text>
+                    <text x="80" y="90" text-anchor="middle" font-size="14" fill="#ccc" font-family="sans-serif">Estreno</text>
+                    <g>
+                        <polygon points="22,200 42,212 22,224" fill="#fff" opacity="0.15"/>
+                        <text x="30" y="215" text-anchor="middle" font-size="16" fill="#fff" font-family="sans-serif">T</text>
+                    </g>
+                    <text x="140" y="230" text-anchor="end" font-size="18" fill="#fff" font-family="sans-serif" opacity="0.7">{{i}}</text>
+                </svg>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+</body>
+</html>
